@@ -45,6 +45,7 @@ The following arguments are supported:
 
 * `policy_id` - (Required) The unique identifier (ID) of the policy that you want to attach to the target.
 * `target_id` - (Required) The unique identifier (ID) of the root, organizational unit, or account number that you want to attach the policy to.
+* `ignore_last_policy_exception` - (Optional) If set to `true`, destroy will ignore errors when the attachment is the last for the associated target. The resource will be removed from state, but the attachment will be preserved to meet the AWS minimum requirement of 1 attached policy.
 
 ## Attributes Reference
 
