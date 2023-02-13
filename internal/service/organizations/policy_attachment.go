@@ -38,6 +38,10 @@ func ResourcePolicyAttachment() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
+			"ignore_last_policy_exception": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 		},
 	}
 }
@@ -111,6 +115,12 @@ func resourcePolicyAttachmentDelete(ctx context.Context, d *schema.ResourceData,
 
 	if tfawserr.ErrCodeEquals(err, organizations.ErrCodeTargetNotFoundException, organizations.ErrCodePolicyNotFoundException) {
 		return diags
+	}
+	if tfawserr.ErrMessageContains(err, organizations.ErrCodeConstraintViolationException, "You cannot remove the last policy attached to the specified target.") {
+		if v, ok := d.GetOk("ignore_last_policy_exception"); ok {
+			log.Printf("[WARN] Attachment is last policy and ignore_last_policy_exception is %t. Ignoring exception and removing from state.", v.(bool))
+			return diags
+		}
 	}
 
 	if err != nil {
