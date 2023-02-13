@@ -60,10 +60,11 @@ func TestAccOrganizations_serial(t *testing.T) {
 			"ImportAwsManagedPolicy": testAccPolicy_importManagedPolicy,
 		},
 		"PolicyAttachment": {
-			"Account":            testAccPolicyAttachment_Account,
-			"OrganizationalUnit": testAccPolicyAttachment_OrganizationalUnit,
-			"Root":               testAccPolicyAttachment_Root,
-			"disappears":         testAccPolicyAttachment_disappears,
+			"Account":                           testAccPolicyAttachment_Account,
+			"OrganizationalUnit":                testAccPolicyAttachment_OrganizationalUnit,
+			"Root":                              testAccPolicyAttachment_Root,
+			"Account_IgnoreLastPolicyException": testAccPolicyAttachment_Account_ignoreLastPolicyException,
+			"disappears":                        testAccPolicyAttachment_disappears,
 		},
 		"DelegatedAdministrator": {
 			"basic":      testAccDelegatedAdministrator_basic,
