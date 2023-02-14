@@ -21,6 +21,7 @@ func ResourcePolicyAttachment() *schema.Resource {
 	return &schema.Resource{
 		CreateWithoutTimeout: resourcePolicyAttachmentCreate,
 		ReadWithoutTimeout:   resourcePolicyAttachmentRead,
+		UpdateWithoutTimeout: resourcePolicyAttachmentUpdate,
 		DeleteWithoutTimeout: resourcePolicyAttachmentDelete,
 
 		Importer: &schema.ResourceImporter{
@@ -96,6 +97,12 @@ func resourcePolicyAttachmentRead(ctx context.Context, d *schema.ResourceData, m
 	d.Set("target_id", targetID)
 
 	return diags
+}
+
+func resourcePolicyAttachmentUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+	// Update is just a pass-through to allow ignore_last_policy_exception to be updated in-place
+	var diags diag.Diagnostics
+	return append(diags, resourcePolicyAttachmentRead(ctx, d, meta)...)
 }
 
 func resourcePolicyAttachmentDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
